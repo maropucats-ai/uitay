@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#294f3b">
+<meta name="description" content="毎日の節約額を記録して、積み重ねを見える化するアプリ">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>浮いた！｜節約トラッカー</title>
+<style>
+:root{color-scheme:light dark;--bg:light-dark(#f5f5ef,#171b18);--surface:light-dark(#fff,#232925);--text:light-dark(#202720,#f1f4ef);--muted:light-dark(#6b756b,#aab5ab);--border:light-dark(#e1e5dc,#39423b);--green:light-dark(#294f3b,#8fc39a);--greenText:light-dark(#fff,#17261b);--soft:light-dark(#e9f0e5,#29382d);--bar:light-dark(#8eb395,#547c5d)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans JP",sans-serif}button,input,select{font:inherit}button{cursor:pointer}.app{max-width:720px;margin:auto;padding:20px 16px calc(28px + env(safe-area-inset-bottom))}.top{display:flex;justify-content:space-between;align-items:center;margin:4px 0 20px}.eyebrow{font-size:11px;letter-spacing:2px;font-weight:800;color:var(--muted)}h1{font-size:29px;letter-spacing:-1px;margin:3px 0}.today{font-size:12px;color:var(--muted);text-align:right}.panel{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:17px;margin-bottom:14px}.hero{background:var(--soft);border-color:transparent}.label{font-size:12px;font-weight:700}.big{font-size:36px;line-height:1.2;font-weight:850;letter-spacing:-1px;margin:9px 0 5px}.muted{color:var(--muted);font-size:12px}.goalrow{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px;margin-top:17px}.progress{height:9px;background:var(--border);border-radius:20px;overflow:hidden;margin-top:8px}.progress span{display:block;height:100%;background:var(--green);border-radius:20px;width:0;transition:width .25s}.goalset{display:flex;align-items:center;gap:7px;margin-top:10px}.goalset input{width:110px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}.stats .panel{margin:0}.statnum{font-size:23px;font-weight:850;margin:7px 0}.section{font-size:15px;font-weight:800;margin:0 0 14px}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}.field label{font-size:12px;font-weight:700}input,select{width:100%;padding:11px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-size:14px}.quick{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 15px}.chip,.small{border:1px solid var(--border);border-radius:20px;padding:8px 11px;background:transparent;color:var(--text);font-size:12px}.primary{width:100%;border:0;border-radius:11px;padding:13px;background:var(--green);color:var(--greenText);font-weight:800}.chart{height:118px;display:flex;align-items:end;gap:7px;padding-top:8px}.chartcol{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:end;gap:6px;height:100%;min-width:0}.chartbar{width:min(100%,29px);background:var(--bar);border-radius:5px 5px 2px 2px;min-height:3px}.chartlabel{font-size:10px;color:var(--muted)}.entry{padding:12px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px}.entry:last-child{border-bottom:0}.entrymain{flex:1;min-width:0}.entrytitle{font-size:14px;font-weight:700;overflow-wrap:anywhere}.tag{display:inline-block;font-size:10px;background:var(--soft);padding:4px 7px;border-radius:6px;margin-top:5px}.entrydate{font-size:11px;color:var(--muted);margin-top:4px}.entryamount{font-weight:800;color:var(--green);white-space:nowrap}.delete{border:1px solid var(--border);background:transparent;color:var(--text);border-radius:8px;padding:5px 8px}.empty{text-align:center;padding:20px 5px;color:var(--muted);font-size:13px}.rowbetween{display:flex;justify-content:space-between;align-items:center;gap:8px}.note{font-size:11px;color:var(--muted);line-height:1.7;padding:0 4px}.toast{font-size:12px;margin-top:8px;min-height:16px;color:var(--green)}.backup{display:flex;gap:8px;margin-top:10px}.backup button{flex:1}.installhint{font-size:12px;line-height:1.6;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<main class="app">
+<header class="top"><div><div class="eyebrow">MY SAVING HABIT</div><h1>浮いた！ 🌱</h1></div><div class="today" id="today"></div></header>
+<section class="panel hero">
+<div class="label">これまでに浮いたお金</div><div class="big"><span id="total">0</span><span style="font-size:16px"> 円</span></div><div class="muted">小さな節約も、ちゃんと積み重なる。</div>
+<div class="goalrow"><span>今月の目標 <b id="goaltext">10,000円</b></span><b id="goalpct">0%</b></div><div class="progress"><span id="goalbar"></span></div>
+<div class="goalset"><label for="goal" class="muted">目標を変更</label><input id="goal" type="number" min="1" step="500" value="10000"><button class="small" id="setgoal">設定</button></div>
+</section>
+<div class="stats"><section class="panel"><div class="muted">今月の節約額</div><div class="statnum"><span id="monthtotal">0</span><span style="font-size:12px"> 円</span></div><div class="muted">今月の積み上げ</div></section><section class="panel"><div class="muted">節約できた回数</div><div class="statnum"><span id="count">0</span><span style="font-size:12px"> 回</span></div><div class="muted">小さな成功の数</div></section></div>
+<section class="panel"><h2 class="section">＋ 今日の節約を記録</h2>
+<div class="field"><label for="amount">浮いた金額（円）</label><input id="amount" type="number" min="1" step="10" placeholder="例：300" inputmode="numeric"></div>
+<div class="muted" style="margin:-4px 0 8px">金額をワンタップで入力</div><div class="quick"><button class="chip" data-amount="100">100円</button><button class="chip" data-amount="300">300円</button><button class="chip" data-amount="500">500円</button><button class="chip" data-amount="1000">1,000円</button></div>
+<div class="field"><label for="category">節約したこと</label><select id="category"><option value="食費">🍜 食費を節約</option><option value="コンビニ">🏪 コンビニを我慢</option><option value="外食">🍱 外食を控えた</option><option value="交通費">🚶 歩いて交通費節約</option><option value="買い物">🛍️ 衝動買いを防いだ</option><option value="その他">🌱 その他</option></select></div>
+<div class="field"><label for="note">ひとこと（任意）</label><input id="note" maxlength="90" placeholder="例：鶴見駅まで歩いた！"></div>
+<div class="field"><label for="date">日付</label><input id="date" type="date"></div>
+<button class="primary" id="add">節約を記録する ＋</button><div class="toast" id="msg" role="status"></div>
+</section>
+<section class="panel"><h2 class="section">📈 今週の節約</h2><div class="muted">日ごとの節約額（円）</div><div class="chart" id="chart"></div><div class="rowbetween" style="margin-top:12px;font-size:12px"><span>今週の合計</span><b id="weektotal">0円</b></div></section>
+<section class="panel"><div class="rowbetween"><h2 class="section" style="margin:0">🧾 節約の記録</h2><button class="small" id="export">CSV保存</button></div><div class="muted" style="margin-top:7px">記録はこのスマホのブラウザ内に保存されます。</div><div id="entries" style="margin-top:10px"></div><div class="backup"><button class="small" id="backup">データを書き出す</button><button class="small" id="restoreBtn">データを読み込む</button><input type="file" id="restore" accept="application/json" hidden></div></section>
+<p class="note">※「浮いた金額」は自分で決めた節約額の記録です。実際に節約できた金額を入力すると、より正確に管理できます。ブラウザのデータ削除などに備えて、定期的にCSV保存またはデータ書き出しをしてください。</p>
+<div class="installhint">ホーム画面への追加：Chromeでこのページを開き、右上の「⋮」→「ホーム画面に追加」または「アプリをインストール」を選びます。</div>
+</main>
+<script>
+(()=>{
+const $=id=>document.getElementById(id),fmt=n=>Math.round(n).toLocaleString('ja-JP'),iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const now=new Date();$('today').textContent=`${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`;$('date').value=iso(now);
+let rows=[],goal=10000;
+try{rows=JSON.parse(localStorage.getItem('ukiita-rows-v1')||'[]');goal=Number(localStorage.getItem('ukiita-goal-v1'))||10000;if(!Array.isArray(rows))rows=[];}catch(e){rows=[]}
+$('goal').value=goal;
+const save=()=>{try{localStorage.setItem('ukiita-rows-v1',JSON.stringify(rows));localStorage.setItem('ukiita-goal-v1',String(goal));}catch(e){$('msg').textContent='保存できませんでした。ブラウザの設定を確認してください。'}};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function render(){
+ const ym=iso(now).slice(0,7),mtRows=rows.filter(r=>r.date.startsWith(ym)),total=rows.reduce((s,r)=>s+r.amount,0),mt=mtRows.reduce((s,r)=>s+r.amount,0);
+ $('total').textContent=fmt(total);$('monthtotal').textContent=fmt(mt);$('count').textContent=fmt(rows.length);
+ const pct=Math.round(mt/goal*100);$('goaltext').textContent=fmt(goal)+'円';$('goalpct').textContent=pct+'%';$('goalbar').style.width=Math.min(100,pct)+'%';
+ const monday=new Date(now);monday.setHours(0,0,0,0);monday.setDate(monday.getDate()-((monday.getDay()+6)%7));let week=0,days=[];
+ for(let i=0;i<7;i++){let d=new Date(monday);d.setDate(monday.getDate()+i);let key=iso(d),v=rows.filter(r=>r.date===key).reduce((s,r)=>s+r.amount,0);week+=v;days.push({key,label:['月','火','水','木','金','土','日'][i],v,isToday:key===iso(now),future:key>iso(now)});}
+ const max=Math.max(100,...days.map(d=>d.v));$('chart').innerHTML=days.map(d=>`<div class="chartcol"><div style="font-size:10px;color:var(--muted)">${d.v?fmt(d.v):''}</div><div class="chartbar" style="height:${Math.max(3,d.v/max*72)}px;${d.isToday?'opacity:1':''};${d.future?'opacity:.2':''}"></div><div class="chartlabel" style="${d.isToday?'font-weight:800;color:var(--text)':''}">${d.label}</div></div>`).join('');$('weektotal').textContent=fmt(week)+'円';
+ const sorted=[...rows].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id).slice(0,100);
+ $('entries').innerHTML=sorted.length?sorted.map(r=>`<div class="entry"><div class="entrymain"><div class="entrytitle">${esc(r.note||r.category)}</div><div class="entrydate">${esc(r.date)}</div><span class="tag">${esc(r.category)}</span></div><div class="entryamount">+${fmt(r.amount)}円</div><button class="delete" data-del="${r.id}" aria-label="記録を削除">×</button></div>`).join(''):'<div class="empty">まだ記録がないよ。<br>まずは今日の節約を1件、記録してみよう！</div>';
+}
+document.querySelectorAll('[data-amount]').forEach(b=>b.addEventListener('click',()=>{$('amount').value=b.dataset.amount;$('amount').focus()}));
+$('add').addEventListener('click',()=>{const amount=Number($('amount').value),date=$('date').value;if(!Number.isFinite(amount)||amount<=0||!date){$('msg').textContent='金額と日付を正しく入力してね。';return}if(amount>1e7){$('msg').textContent='金額を確認してね。';return}rows.push({id:Date.now(),amount:Math.round(amount),date,category:$('category').value,note:$('note').value.trim()});save();render();$('amount').value='';$('note').value='';$('msg').textContent='記録したよ！ '+fmt(Math.round(amount))+'円の節約 🌱';});
+$('setgoal').addEventListener('click',()=>{const n=Number($('goal').value);if(!Number.isFinite(n)||n<1){$('msg').textContent='目標は1円以上にしてね。';return}goal=Math.round(n);save();render();$('msg').textContent='今月の目標を更新したよ！'});
+$('entries').addEventListener('click',e=>{const b=e.target.closest('[data-del]');if(!b)return;if(confirm('この記録を削除しますか？')){rows=rows.filter(r=>r.id!==Number(b.dataset.del));save();render()}});
+function download(name,blob){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1500)}
+$('export').addEventListener('click',()=>{const csv='\uFEFF日付,金額,カテゴリ,メモ\n'+rows.map(r=>[r.date,r.amount,r.category,r.note].map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\n');download('浮いた節約記録.csv',new Blob([csv],{type:'text/csv;charset=utf-8'}))});
+$('backup').addEventListener('click',()=>download('ukiita-backup.json',new Blob([JSON.stringify({version:1,goal,rows},null,2)],{type:'application/json'})));
+$('restoreBtn').addEventListener('click',()=>$('restore').click());
+$('restore').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text());if(!Array.isArray(d.rows)||!d.rows.every(r=>Number.isFinite(r.amount)&&typeof r.date==='string'))throw Error();if(!confirm('現在の記録を読み込んだデータで置き換えますか？'))return;rows=d.rows;goal=Number(d.goal)||10000;$('goal').value=goal;save();render();$('msg').textContent='データを読み込みました。';}catch(err){$('msg').textContent='読み込みに失敗しました。バックアップファイルを確認してください。'}e.target.value=''});
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+render();
+})();
+</script>
+</body></html>

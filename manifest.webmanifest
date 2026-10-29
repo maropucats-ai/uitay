@@ -1,0 +1,17 @@
+{
+  "id": "./",
+  "name": "浮いた！｜節約トラッカー",
+  "short_name": "浮いた！",
+  "description": "毎日の節約額を記録して、積み重ねを見える化するアプリ",
+  "lang": "ja",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f5ef",
+  "theme_color": "#294f3b",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}
+  ]
+}
